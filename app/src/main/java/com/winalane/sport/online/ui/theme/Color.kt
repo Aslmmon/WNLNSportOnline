@@ -12,3 +12,6 @@ val Pink40 = Color(0xFF7D5260)
 val PrimaryColor = Color(0xFFDEDEDE)
 val SecondaryColor = Color(0xFFFB8708)
 val TertiaryColor = Color(0xFFECECEC)
+val DividerColor = Color(0xFFE7E7E7)
+val titleGrayColor = Color(0xFFE6D6D6D)
+

@@ -41,17 +41,20 @@ fun AppButton(modifier: Modifier, text: String, onClick: () -> Unit) {
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(6.dp))
+            .height(40.dp)
             .clickable {
                 onClick.invoke()
             }
-            .background(color = MaterialTheme.colorScheme.secondary)
+            .background(color = MaterialTheme.colorScheme.secondary),
+        contentAlignment = Alignment.Center
     ) {
         Text(
             text = text,
             modifier = modifier.padding(horizontal = 15.dp, vertical = 5.dp),
             color = Color.White,
             style = MaterialTheme.typography.labelMedium,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+
         )
     }
 }
