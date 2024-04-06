@@ -3,4 +3,5 @@
     <string name="workout">workout</string>
     <string name="achievements">Achievements</string>
     <string name="progress">Progress</string>
+    <string name="add_progress">+ Add Progress</string>
 </resources>

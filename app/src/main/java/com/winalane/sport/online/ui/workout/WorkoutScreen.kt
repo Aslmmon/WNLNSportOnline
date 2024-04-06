@@ -2,7 +2,6 @@ package com.winalane.sport.online.ui.workout
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,8 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Colors
 import androidx.compose.material.Text
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -23,19 +20,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role.Companion.Button
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.winalane.sport.online.R
+import com.winalane.sport.online.ui.components.AppButton
+import com.winalane.sport.online.ui.components.ContainerBox
+import com.winalane.sport.online.ui.components.ItemsView
 
 @Composable
 fun WorkOutScreen(modifier: Modifier) {
     var listSports = mutableListOf<Sport>(
-        Sport(name = "Football", isSelected = true),
-        Sport(name = "Football"),
-        Sport(name = "Football"),
-        Sport(name = "Football"),
-        Sport(name = "Football"),
-        Sport(name = "Football")
+        Sport(name = "Soccer", isSelected = true),
+        Sport(name = "Bicycle"),
+        Sport(name = "Running"),
+        Sport(name = "Push-ups"),
+        Sport(name = "Press"),
+        Sport(name = "Bench Pull"),
+        Sport(name = "Bench Press")
+
     )
     Column(
         modifier = modifier
@@ -44,33 +46,19 @@ fun WorkOutScreen(modifier: Modifier) {
     ) {
 
 
-        Box(
-            modifier = modifier
-                .fillMaxHeight()
-                .clip(RoundedCornerShape(20.dp))
-                .padding(horizontal = 5.dp, vertical = 10.dp)
-                .background(color = MaterialTheme.colorScheme.primary)
-        ) {
+        ContainerBox(modifier = modifier) {
             Column(
-                modifier = modifier.fillMaxHeight(), verticalArrangement = Arrangement.SpaceBetween
+                modifier = modifier
+                    .fillMaxHeight()
+                    .padding(vertical = 10.dp, horizontal = 5.dp),
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(5.dp),
-                    modifier = modifier.padding(horizontal = 5.dp, vertical = 10.dp)
+                    modifier = modifier
                 ) {
                     items(listSports) { item ->
-                        Box(
-                            modifier = modifier
-                                .clip(RoundedCornerShape(6.dp))
-                                .background(color = if (item.isSelected) MaterialTheme.colorScheme.secondary else Color.White)
-                        ) {
-                            Text(
-                                text = item.name,
-                                modifier = modifier.padding(10.dp),
-                                color = if (item.isSelected) Color.White else MaterialTheme.colorScheme.secondary,
-                                style = MaterialTheme.typography.labelMedium
-                            )
-                        }
+                        ItemsView(modifier = modifier, sport = item)
                     }
                 }
 
@@ -81,9 +69,13 @@ fun WorkOutScreen(modifier: Modifier) {
                     contentDescription = ""
                 )
 
-                Button(modifier = modifier.align(Alignment.End), onClick = { /*TODO*/ }) {
-                    Text(text = "click me")
-                }
+
+                AppButton(
+                    modifier = modifier.align(Alignment.End),
+                    text = stringResource(R.string.add_progress),
+                    onClick = {
+
+                    })
             }
         }
     }
