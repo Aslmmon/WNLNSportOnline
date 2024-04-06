@@ -165,7 +165,7 @@ fun AddProgressInputs(modifier: Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp)
-            .wrapContentHeight(),
+            .height(150.dp),
         shape = RoundedCornerShape(8.dp),
     ) {
         Column(

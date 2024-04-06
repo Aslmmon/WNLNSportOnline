@@ -63,7 +63,9 @@ fun AddWorkOutScreen(modifier: Modifier,onNavigateBack:()->Unit) {
                 Box(
                     modifier = modifier
                         .clip(RoundedCornerShape(16.dp))
-                        .background(MaterialTheme.colorScheme.secondary)
+                        .height(35.dp)
+                        .background(MaterialTheme.colorScheme.secondary),
+                    contentAlignment = Alignment.Center
                 ) {
                     Text(
                         modifier = modifier.padding(horizontal = 45.dp, vertical = 5.dp),
@@ -73,11 +75,8 @@ fun AddWorkOutScreen(modifier: Modifier,onNavigateBack:()->Unit) {
                         textAlign = TextAlign.Center
                     )
                 }
-                Spacer(modifier = modifier.height(10.dp))
                 WorkoutIconWithTitle(modifier)
-
                 AddProgressInputs(modifier)
-
                 AppButton(
                     modifier = modifier
                         .fillMaxWidth()

@@ -204,7 +204,9 @@ private fun MainScreenNavigationConfigurations(
             })
         }
         composable("Addworkout") {
-            AddWorkOutScreen(modifier = Modifier)
+            AddWorkOutScreen(modifier = Modifier, onNavigateBack = {
+                navController.popBackStack()
+            })
         }
         composable(BottomNavigationScreens.Achievments.route) {
             AchievmentsScreen(modifier = Modifier)
