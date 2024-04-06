@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -96,8 +97,8 @@ fun MinimalDialog(modifier: Modifier, newScoreImage: Int, onDismissRequest: () -
         Card(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(horizontal = 40.dp)
-                .height(250.dp),
+                .wrapContentHeight()
+                .padding(horizontal = 40.dp),
             shape = RoundedCornerShape(8.dp),
         ) {
             Column(
