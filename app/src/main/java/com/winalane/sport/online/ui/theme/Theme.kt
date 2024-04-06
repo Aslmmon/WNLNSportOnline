@@ -21,6 +21,7 @@ private val DarkColorScheme = darkColorScheme(
     tertiary = TertiaryColor,
     surfaceTint = DividerColor,
     surfaceDim = titleGrayColor,
+    surfaceBright = titleGreenColor
 
 
 )
@@ -31,6 +32,8 @@ private val LightColorScheme = lightColorScheme(
     tertiary = TertiaryColor,
     surfaceTint = DividerColor,
     surfaceDim = titleGrayColor,
+    surfaceBright = titleGreenColor
+
 
 
     /* Other default colors to override
