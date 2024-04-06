@@ -36,7 +36,7 @@ import com.winalane.sport.online.ui.components.ContainerBox
 import com.winalane.sport.online.ui.components.ItemsView
 
 @Composable
-fun WorkOutScreen(modifier: Modifier) {
+fun WorkOutScreen(modifier: Modifier, onNavigateToAddWorkOut: () -> Unit) {
     var listSports = mutableListOf<Sport>(
         Sport(name = "Soccer", isSelected = true),
         Sport(name = "Bicycle"),
@@ -87,7 +87,7 @@ fun WorkOutScreen(modifier: Modifier) {
                     modifier = modifier.align(Alignment.End),
                     text = stringResource(R.string.add_progress),
                     onClick = {
-
+                        onNavigateToAddWorkOut.invoke()
                     })
             }
         }
@@ -126,7 +126,11 @@ fun WorkOutViewItem(modifier: Modifier) {
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.surfaceDim
                 )
-                Text(text = "120 min",style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.surfaceDim)
+                Text(
+                    text = "120 min",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.surfaceDim
+                )
 
             }
             Spacer(modifier = modifier.height(5.dp))
@@ -140,7 +144,11 @@ fun WorkOutViewItem(modifier: Modifier) {
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.surfaceDim
                 )
-                Text(text = "1",style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.surfaceDim)
+                Text(
+                    text = "1",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.surfaceDim
+                )
 
             }
 

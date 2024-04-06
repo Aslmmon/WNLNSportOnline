@@ -36,6 +36,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.winalane.sport.online.ui.acheivements.AchievmentsScreen
+import com.winalane.sport.online.ui.add_workout.AddWorkOutScreen
 import com.winalane.sport.online.ui.progress.ProgressScreen
 import com.winalane.sport.online.ui.theme.WNLNSportOnlineTheme
 import com.winalane.sport.online.ui.workout.WorkOutScreen
@@ -198,7 +199,12 @@ private fun MainScreenNavigationConfigurations(
         Modifier.padding(paddingValues)
     ) {
         composable(BottomNavigationScreens.WorkOut.route) {
-            WorkOutScreen(modifier = Modifier)
+            WorkOutScreen(modifier = Modifier, onNavigateToAddWorkOut = {
+                navController.navigate("Addworkout")
+            })
+        }
+        composable("Addworkout") {
+            AddWorkOutScreen(modifier = Modifier)
         }
         composable(BottomNavigationScreens.Achievments.route) {
             AchievmentsScreen(modifier = Modifier)

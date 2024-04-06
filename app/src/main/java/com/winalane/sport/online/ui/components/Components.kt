@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.winalane.sport.online.R
+import com.winalane.sport.online.ui.add_workout.StyledTextField
 import com.winalane.sport.online.ui.workout.Sport
 
 
@@ -55,7 +57,7 @@ fun AppButton(modifier: Modifier, text: String, onClick: () -> Unit) {
             style = MaterialTheme.typography.labelMedium,
             textAlign = TextAlign.Center,
 
-        )
+            )
     }
 }
 
@@ -125,7 +127,7 @@ fun MinimalDialog(modifier: Modifier, newScoreImage: Int, onDismissRequest: () -
                         modifier = modifier.height(50.dp),
                         color = MaterialTheme.colorScheme.secondary
                     )
-                    Column (horizontalAlignment = Alignment.CenterHorizontally){
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Image(
                             painter = painterResource(id = newScoreImage),
                             contentDescription = "",
@@ -154,4 +156,80 @@ fun MinimalDialog(modifier: Modifier, newScoreImage: Int, onDismissRequest: () -
             }
         }
     }
+}
+
+@Composable
+fun AddProgressInputs(modifier: Modifier) {
+
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp)
+            .wrapContentHeight(),
+        shape = RoundedCornerShape(8.dp),
+    ) {
+        Column(
+            modifier = modifier
+                .padding(vertical = 15.dp, horizontal = 10.dp),
+            verticalArrangement = Arrangement.SpaceBetween
+
+        ) {
+
+
+            Row(
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Duration",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.surfaceDim
+                )
+                StyledTextField(modifier, " Km")
+
+
+            }
+            Spacer(modifier = modifier.height(15.dp))
+            Divider(
+                modifier = modifier.height(1.dp),
+                color = MaterialTheme.colorScheme.surfaceTint
+            )
+            Spacer(modifier = modifier.height(15.dp))
+
+            Row(
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "Distance",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.surfaceDim
+                )
+                StyledTextField(modifier, " min")
+
+
+            }
+
+        }
+    }
+}
+
+@Composable
+fun WorkoutIconWithTitle(modifier: Modifier) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Image(
+            painter = painterResource(id = R.drawable.bicycle),
+            contentDescription = "",
+            Modifier.size(75.dp)
+        )
+        Text(
+            modifier = modifier.padding(horizontal = 45.dp, vertical = 5.dp),
+            text = "Bicycle",
+            style = MaterialTheme.typography.labelSmall,
+            color = Color.Black,
+            textAlign = TextAlign.Center
+        )
+    }
+
 }
