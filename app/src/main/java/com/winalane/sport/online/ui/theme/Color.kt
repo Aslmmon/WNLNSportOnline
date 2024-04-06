@@ -15,5 +15,7 @@ val TertiaryColor = Color(0xFFECECEC)
 val DividerColor = Color(0xFFE7E7E7)
 val titleGrayColor = Color(0xFFE6D6D6D)
 val titleGreenColor = Color(0xFFE38BE16)
+val buttonsGrayColor = Color(0xFF898989)
+
 
 

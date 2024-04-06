@@ -21,7 +21,8 @@ private val DarkColorScheme = darkColorScheme(
     tertiary = TertiaryColor,
     surfaceTint = DividerColor,
     surfaceDim = titleGrayColor,
-    surfaceBright = titleGreenColor
+    surfaceBright = titleGreenColor,
+    surfaceContainer = buttonsGrayColor
 
 
 )
@@ -32,7 +33,9 @@ private val LightColorScheme = lightColorScheme(
     tertiary = TertiaryColor,
     surfaceTint = DividerColor,
     surfaceDim = titleGrayColor,
-    surfaceBright = titleGreenColor
+    surfaceBright = titleGreenColor,
+    surfaceContainer = buttonsGrayColor
+
 
 
 

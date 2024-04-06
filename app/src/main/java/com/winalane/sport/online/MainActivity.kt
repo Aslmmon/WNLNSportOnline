@@ -155,7 +155,7 @@ private fun SpookyAppBottomNavigation(
                     Text(
                         stringResource(id = screen.resourceId),
                         style = MaterialTheme.typography.labelMedium,
-                        color = if (selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary
+                        color = if (selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.surfaceContainer
                     )
                 },
                 selectedContentColor = MaterialTheme.colorScheme.secondary,
@@ -165,7 +165,7 @@ private fun SpookyAppBottomNavigation(
                     Icon(
                         painterResource(id = screen.icon),
                         contentDescription = null,
-                        tint = if (selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary
+                        tint = if (selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.surfaceContainer
                     )
                 },
                 onClick = {
