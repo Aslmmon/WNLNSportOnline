@@ -9,12 +9,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,8 +32,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.winalane.sport.online.R
+import com.winalane.sport.online.data.Sport
 import com.winalane.sport.online.ui.add_workout.StyledTextField
-import com.winalane.sport.online.ui.workout.Sport
 
 
 @Composable
@@ -85,14 +83,24 @@ fun ItemsView(
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(6.dp))
-            .background(color = if (sport.isSelected) MaterialTheme.colorScheme.secondary else Color.White)
+            .background(
+                color =
+                if (sport.isSelected) MaterialTheme.colorScheme.secondary else Color.White
+            ),
+        contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = sport.name,
-            modifier = modifier.padding(10.dp),
-            color = if (sport.isSelected) Color.White else MaterialTheme.colorScheme.secondary,
-            style = MaterialTheme.typography.labelMedium
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Image(
+                painter = painterResource(id = sport.icon), contentDescription = "",
+                modifier = modifier.padding(start = 5.dp)
+            )
+            Text(
+                text = sport.name,
+                modifier = modifier.padding(10.dp),
+                color = if (sport.isSelected) Color.White else MaterialTheme.colorScheme.secondary,
+                style = MaterialTheme.typography.labelMedium,
+            )
+        }
     }
 }
 

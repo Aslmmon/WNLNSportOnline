@@ -3,7 +3,6 @@ package com.winalane.sport.online.ui.workout
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,33 +19,22 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.winalane.sport.online.R
+import com.winalane.sport.online.data.sportList
 import com.winalane.sport.online.ui.components.AppButton
 import com.winalane.sport.online.ui.components.ContainerBox
 import com.winalane.sport.online.ui.components.ItemsView
 
 @Composable
 fun WorkOutScreen(modifier: Modifier, onNavigateToAddWorkOut: () -> Unit) {
-    var listSports = mutableListOf<Sport>(
-        Sport(name = "Soccer", isSelected = true),
-        Sport(name = "Bicycle"),
-        Sport(name = "Running"),
-        Sport(name = "Push-ups"),
-        Sport(name = "Press"),
-        Sport(name = "Bench Pull"),
-        Sport(name = "Bench Press")
 
-    )
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -65,7 +53,7 @@ fun WorkOutScreen(modifier: Modifier, onNavigateToAddWorkOut: () -> Unit) {
                     horizontalArrangement = Arrangement.spacedBy(5.dp),
                     modifier = modifier
                 ) {
-                    items(listSports) { item ->
+                    items(sportList) { item ->
                         ItemsView(modifier = modifier, sport = item)
                     }
                 }
