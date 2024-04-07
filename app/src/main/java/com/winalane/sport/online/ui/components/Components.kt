@@ -78,7 +78,8 @@ fun ContainerBox(
 @Composable
 fun ItemsView(
     modifier: Modifier,
-    sport: Sport
+    sport: Sport,
+    onItemClicked: (Int) -> Unit
 ) {
     Box(
         modifier = modifier
@@ -86,7 +87,10 @@ fun ItemsView(
             .background(
                 color =
                 if (sport.isSelected) MaterialTheme.colorScheme.secondary else Color.White
-            ),
+            )
+            .clickable {
+                onItemClicked.invoke(sport.categoryType.categoryId)
+            },
         contentAlignment = Alignment.Center
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {

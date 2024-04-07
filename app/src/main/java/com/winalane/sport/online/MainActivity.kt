@@ -12,9 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cached
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -23,13 +20,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -40,6 +33,7 @@ import com.winalane.sport.online.ui.add_workout.AddWorkOutScreen
 import com.winalane.sport.online.ui.progress.ProgressScreen
 import com.winalane.sport.online.ui.theme.WNLNSportOnlineTheme
 import com.winalane.sport.online.ui.workout.WorkOutScreen
+import com.winalane.sport.online.ui.workout.WorkoutViewModel
 import kotlinx.coroutines.delay
 
 val KEY_ROUTE: String? = "route"
@@ -198,10 +192,11 @@ private fun MainScreenNavigationConfigurations(
         startDestination = BottomNavigationScreens.WorkOut.route,
         Modifier.padding(paddingValues)
     ) {
+        var workoutViewModel = WorkoutViewModel()
         composable(BottomNavigationScreens.WorkOut.route) {
             WorkOutScreen(modifier = Modifier, onNavigateToAddWorkOut = {
                 navController.navigate("Addworkout")
-            })
+            },workoutViewModel)
         }
         composable("Addworkout") {
             AddWorkOutScreen(modifier = Modifier, onNavigateBack = {

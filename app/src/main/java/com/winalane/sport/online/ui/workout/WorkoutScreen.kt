@@ -17,10 +17,13 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -33,7 +36,12 @@ import com.winalane.sport.online.ui.components.ContainerBox
 import com.winalane.sport.online.ui.components.ItemsView
 
 @Composable
-fun WorkOutScreen(modifier: Modifier, onNavigateToAddWorkOut: () -> Unit) {
+fun WorkOutScreen(
+    modifier: Modifier,
+    onNavigateToAddWorkOut: () -> Unit,
+    workoutViewModel: WorkoutViewModel
+) {
+    val uiState by workoutViewModel.listSports.collectAsState()
 
     Column(
         modifier = modifier
@@ -43,47 +51,63 @@ fun WorkOutScreen(modifier: Modifier, onNavigateToAddWorkOut: () -> Unit) {
 
 
         ContainerBox(modifier = modifier) {
-            Column(
-                modifier = modifier
-                    .fillMaxHeight()
-                    .padding(vertical = 10.dp, horizontal = 5.dp),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(5.dp),
-                    modifier = modifier
-                ) {
-                    items(sportList) { item ->
-                        ItemsView(modifier = modifier, sport = item)
-                    }
-                }
-                LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    items(2) {
-                        WorkOutViewItem(modifier = modifier)
-                    }
+            when (uiState) {
+                is WorkoutViewModel.UiState.Loading -> {
+                    CircularProgressIndicator(modifier.align(Alignment.CenterHorizontally))
                 }
 
+                is WorkoutViewModel.UiState.Success -> {
+                    Column(
+                        modifier = modifier
+                            .fillMaxHeight()
+                            .padding(vertical = 10.dp, horizontal = 5.dp),
+                        verticalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(5.dp),
+                            modifier = modifier
+                        ) {
+                            items((uiState as WorkoutViewModel.UiState.Success).data) { item ->
+                                ItemsView(
+                                    modifier = modifier,
+                                    sport = item,
+                                    onItemClicked = { catId ->
+                                        workoutViewModel.selectItem(catId)
+                                    })
+                            }
+                        }
+                        LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                            items(2) {
+                                WorkOutViewItem(modifier = modifier)
+                            }
+                        }
 
-                Image(
-                    modifier = modifier.align(Alignment.CenterHorizontally),
-                    painter = painterResource(id = R.drawable.no_exercise),
-                    contentDescription = ""
-                )
+
+                        Image(
+                            modifier = modifier.align(Alignment.CenterHorizontally),
+                            painter = painterResource(id = R.drawable.no_exercise),
+                            contentDescription = ""
+                        )
 
 
-                AppButton(
-                    modifier = modifier.align(Alignment.End),
-                    text = stringResource(R.string.add_progress),
-                    onClick = {
-                        onNavigateToAddWorkOut.invoke()
-                    })
+                        AppButton(
+                            modifier = modifier.align(Alignment.End),
+                            text = stringResource(R.string.add_progress),
+                            onClick = {
+                                onNavigateToAddWorkOut.invoke()
+                            })
+                    }
+                }
+
+                is WorkoutViewModel.UiState.Error -> {
+
+                }
+
             }
+
         }
     }
 }
-
-
-data class Sport(val icon: Int? = null, val name: String, var isSelected: Boolean = false)
 
 
 @Composable

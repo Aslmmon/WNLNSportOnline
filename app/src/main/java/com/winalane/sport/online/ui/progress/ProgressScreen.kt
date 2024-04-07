@@ -31,7 +31,6 @@ import com.winalane.sport.online.R
 import com.winalane.sport.online.data.sportList
 import com.winalane.sport.online.ui.components.ContainerBox
 import com.winalane.sport.online.ui.components.ItemsView
-import com.winalane.sport.online.ui.workout.Sport
 
 @Composable
 fun ProgressScreen(modifier: Modifier) {
@@ -52,7 +51,9 @@ fun ProgressScreen(modifier: Modifier) {
                     modifier = modifier
                 ) {
                     items(sportList) { item ->
-                        ItemsView(modifier = modifier, sport = item)
+                        ItemsView(modifier = modifier, sport = item, onItemClicked = {
+
+                        })
                     }
                 }
 

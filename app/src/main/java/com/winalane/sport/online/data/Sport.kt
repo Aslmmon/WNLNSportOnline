@@ -41,7 +41,7 @@ enum class SPORTY {
     TWOEDITTEXT, SPINNERANDEDITTEXT, ONEEDITTEXT
 }
 
-enum class CategoryType(type: Int) {
+enum class CategoryType(var categoryId: Int) {
     Football(1), Bike(2), Running(3), PushUps(4),
     AbsExercise(5), DeadlifT(6), BenchPress(7)
 }
