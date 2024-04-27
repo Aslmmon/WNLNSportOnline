@@ -23,7 +23,10 @@ class WorkoutViewModel : ViewModel() {
         getListSports()
     }
 
-    fun getListSports() {
+    private fun getListSports() {
+        _uiState.update {
+            UiState.Loading()
+        }
         viewModelScope.launch {
             try {
                 _uiState.update {
