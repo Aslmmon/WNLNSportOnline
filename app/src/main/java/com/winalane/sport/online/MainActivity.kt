@@ -192,7 +192,7 @@ private fun MainScreenNavigationConfigurations(
         startDestination = BottomNavigationScreens.WorkOut.route,
         Modifier.padding(paddingValues)
     ) {
-        var workoutViewModel = WorkoutViewModel()
+        val workoutViewModel = WorkoutViewModel()
         composable(BottomNavigationScreens.WorkOut.route) {
             WorkOutScreen(modifier = Modifier, onNavigateToAddWorkOut = {
                 navController.navigate("Addworkout")

@@ -16,11 +16,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Divider
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -30,7 +29,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.winalane.sport.online.R
-import com.winalane.sport.online.data.sportList
 import com.winalane.sport.online.ui.components.AppButton
 import com.winalane.sport.online.ui.components.ContainerBox
 import com.winalane.sport.online.ui.components.ItemsView
@@ -41,7 +39,8 @@ fun WorkOutScreen(
     onNavigateToAddWorkOut: () -> Unit,
     workoutViewModel: WorkoutViewModel
 ) {
-    val uiState by workoutViewModel.listSports.collectAsState()
+    val uiState by workoutViewModel.uiState.collectAsState()
+    val checkedSport by workoutViewModel.checkedItem.collectAsState()
 
     Column(
         modifier = modifier
@@ -51,36 +50,41 @@ fun WorkOutScreen(
 
 
         ContainerBox(modifier = modifier) {
+
             when (uiState) {
                 is WorkoutViewModel.UiState.Loading -> {
-                    CircularProgressIndicator(modifier.align(Alignment.CenterHorizontally))
+                    // CircularProgressIndicator(modifier.align(Alignment.CenterHorizontally))
                 }
 
                 is WorkoutViewModel.UiState.Success -> {
+                    val data = (uiState as WorkoutViewModel.UiState.Success).data
+
                     Column(
                         modifier = modifier
                             .fillMaxHeight()
                             .padding(vertical = 10.dp, horizontal = 5.dp),
                         verticalArrangement = Arrangement.SpaceBetween
                     ) {
-                        LazyRow(
-                            horizontalArrangement = Arrangement.spacedBy(5.dp),
-                            modifier = modifier
-                        ) {
-                            items((uiState as WorkoutViewModel.UiState.Success).data) { item ->
-                                ItemsView(
-                                    modifier = modifier,
-                                    sport = item,
-                                    onItemClicked = { catId ->
-                                        workoutViewModel.selectItem(catId)
-                                    })
+                        Column(verticalArrangement = Arrangement.spacedBy(15.dp)) {
+                            LazyRow(
+                                horizontalArrangement = Arrangement.spacedBy(5.dp),
+                                modifier = modifier
+                            ) {
+                                items(data) { item ->
+                                    ItemsView(
+                                        modifier = modifier,
+                                        sport = item,
+                                        onItemClicked = workoutViewModel::selectItem
+                                    )
+                                }
+                            }
+                            LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                items(2) {
+                                    //  WorkOutViewItem(modifier = modifier)
+                                }
                             }
                         }
-                        LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                            items(2) {
-                                WorkOutViewItem(modifier = modifier)
-                            }
-                        }
+
 
 
                         Image(

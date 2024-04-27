@@ -19,15 +19,23 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -68,7 +76,7 @@ fun ContainerBox(
         modifier = Modifier
             .fillMaxHeight()
             .clip(RoundedCornerShape(30.dp))
-            .padding(horizontal = 5.dp, vertical = 10.dp)
+            .padding(horizontal = 5.dp, vertical = 5.dp)
             .background(color = MaterialTheme.colorScheme.primary)
     ) {
         content.invoke()
@@ -79,29 +87,43 @@ fun ContainerBox(
 fun ItemsView(
     modifier: Modifier,
     sport: Sport,
-    onItemClicked: (Int) -> Unit
+    onItemClicked: (Sport) -> Unit,
 ) {
+
+
+//    val checkedSport by remember {
+//        mutableStateOf(initialChecked)
+//    }
+//    var isChecked by remember {
+//        mutableStateOf(isItemChecked)
+//    }
+
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(6.dp))
             .background(
                 color =
-                if (sport.isSelected) MaterialTheme.colorScheme.secondary else Color.White
-            )
-            .clickable {
-                onItemClicked.invoke(sport.categoryType.categoryId)
-            },
+                if (sport.selected) MaterialTheme.colorScheme.secondary else Color.White
+            ),
         contentAlignment = Alignment.Center
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Image(
-                painter = painterResource(id = sport.icon), contentDescription = "",
-                modifier = modifier.padding(start = 5.dp)
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier.clickable {
+//            isChecked = checkedSport== sport
+//            isChecked = true
+            onItemClicked.invoke(sport)
+           // isChecked = sport.isSelected
+
+        }) {
+            Icon(
+                modifier = modifier.padding(start = 5.dp),
+                imageVector = ImageVector.vectorResource(id = sport.icon),
+                contentDescription = "Some icon",
+                tint = if (sport.selected) Color.White else MaterialTheme.colorScheme.secondary
             )
             Text(
                 text = sport.name,
                 modifier = modifier.padding(10.dp),
-                color = if (sport.isSelected) Color.White else MaterialTheme.colorScheme.secondary,
+                color = if (sport.selected) Color.White else MaterialTheme.colorScheme.secondary,
                 style = MaterialTheme.typography.labelMedium,
             )
         }

@@ -1,23 +1,22 @@
 package com.winalane.sport.online.ui.workout
 
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.winalane.sport.online.data.Sport
 import com.winalane.sport.online.data.sportList
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class WorkoutViewModel : ViewModel() {
-    private var _listSports: MutableStateFlow<UiState> = MutableStateFlow(
-        UiState.Loading()
-    )
-    val listSports: MutableStateFlow<UiState> get() = _listSports
-    var newList = sportList
+    private var _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Loading())
+    val uiState: StateFlow<UiState> get() = _uiState.asStateFlow()
+
+
+    private var _checkedItem: MutableStateFlow<Sport> = MutableStateFlow(sportList[0])
+    val checkedItem: StateFlow<Sport> get() = _checkedItem.asStateFlow()
 
 
     init {
@@ -26,13 +25,12 @@ class WorkoutViewModel : ViewModel() {
 
     fun getListSports() {
         viewModelScope.launch {
-            delay(3000L)
             try {
-                _listSports.update {
-                    UiState.Success(newList)
+                _uiState.update {
+                    UiState.Success(sportList)
                 }
             } catch (e: Exception) {
-                _listSports.update {
+                _uiState.update {
                     UiState.Error("error")
                 }
             }
@@ -40,12 +38,12 @@ class WorkoutViewModel : ViewModel() {
         }
     }
 
-    fun selectItem(id: Int) {
-        newList.find { it.categoryType.categoryId == id }?.isSelected = true
-        _listSports.getAndUpdate {
-            UiState.Success(newList)
+    fun selectItem(sport: Sport) {
+        with((_uiState.value as UiState.Success).data) {
+            this.forEach { it.selected = false }
+            this.find { it.categoryType.categoryId == sport.categoryType.categoryId }?.selected =
+                true
         }
-
 
     }
 
@@ -53,7 +51,7 @@ class WorkoutViewModel : ViewModel() {
     sealed class UiState {
         data class Success(val data: MutableList<Sport>) : UiState()
         data class Error(val message: String) : UiState()
-        class Loading : UiState()
+        data class Loading(val loading: Boolean = true) : UiState()
 
     }
 }

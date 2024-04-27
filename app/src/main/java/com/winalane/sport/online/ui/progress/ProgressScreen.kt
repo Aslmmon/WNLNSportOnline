@@ -51,9 +51,9 @@ fun ProgressScreen(modifier: Modifier) {
                     modifier = modifier
                 ) {
                     items(sportList) { item ->
-                        ItemsView(modifier = modifier, sport = item, onItemClicked = {
-
-                        })
+//                        ItemsView(modifier = modifier, sport = item, onItemClicked = { sport->
+//
+//                        }, initialChecked = sportList.get(0))
                     }
                 }
 
