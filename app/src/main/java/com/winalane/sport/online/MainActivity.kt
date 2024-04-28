@@ -120,7 +120,7 @@ sealed class BottomNavigationScreens(
         )
 
     object Achievments : BottomNavigationScreens(
-        ROUTES.AcheievementsScreen.value,
+        ROUTES.AchievementsScreen.value,
         resourceId = R.string.achievements,
         (R.drawable.achievment_icon)
     )
@@ -190,12 +190,12 @@ private fun MainScreenNavigationConfigurations(
         composable(BottomNavigationScreens.WorkOut.route) {
             WorkOutScreen(modifier = Modifier, onNavigateToAddWorkOut = {
                 navController.navigate(ROUTES.AddWorkoutScreen.value)
-            }, workoutViewModel,sharedViewModel)
+            }, workoutViewModel, sharedViewModel)
         }
         composable(ROUTES.AddWorkoutScreen.value) {
             AddWorkOutScreen(modifier = Modifier, onNavigateBack = {
                 navController.popBackStack()
-            },sharedViewModel)
+            }, sharedViewModel)
         }
         composable(BottomNavigationScreens.Achievments.route) {
             AchievmentsScreen(modifier = Modifier)
@@ -211,7 +211,7 @@ enum class ROUTES(var value: String) {
     SplashScreen("SplashScreen"),
     MainScreen("MainScreen"),
     WorkOutScreen("WorkOutScreen"),
-    AcheievementsScreen("AcheivementsScreen"),
+    AchievementsScreen("AchievementsScreen"),
     ProgressScreen("ProgressScreen")
 
 
