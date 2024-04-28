@@ -47,9 +47,14 @@ enum class SPORTY {
     TWOEDITTEXT, SPINNERANDEDITTEXT, ONEEDITTEXT
 }
 
-enum class CategoryType(var categoryId: Int) {
-    Football(1), Bike(2), Running(3), PushUps(4),
-    AbsExercise(5), DeadlifT(6), BenchPress(7)
+enum class CategoryType(var categoryId: Int, var image: Int) {
+    Football(1, R.drawable.football_large),
+    Bike(2, R.drawable.bicycle_large),
+    Running(3, R.drawable.run_large),
+    PushUps(4, R.drawable.push_up_large),
+    AbsExercise(5, R.drawable.abs_large),
+    DeadlifT(6, R.drawable.lift_large),
+    BenchPress(7, R.drawable.bench_large)
 }
 
 var sportList = mutableStateListOf(

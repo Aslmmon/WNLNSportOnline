@@ -28,12 +28,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.winalane.sport.online.R
 import com.winalane.sport.online.data.Sport
 import com.winalane.sport.online.ui.common.SharedViewModel
+import com.winalane.sport.online.ui.common.getcurrentDate
 import com.winalane.sport.online.ui.features.components.AddProgressInputs
 import com.winalane.sport.online.ui.features.components.AppButton
 import com.winalane.sport.online.ui.features.components.ContainerBox
@@ -45,7 +49,8 @@ fun AddWorkOutScreen(
     onNavigateBack: () -> Unit,
     sharedViewModel: SharedViewModel<Sport>
 ) {
-    var sportChoosen = sharedViewModel.data.value
+    val sportChoosen = sharedViewModel.data.value
+    val context = LocalContext.current
 
     Column(
         modifier = modifier
@@ -72,19 +77,19 @@ fun AddWorkOutScreen(
                 ) {
                     Text(
                         modifier = modifier.padding(horizontal = 45.dp, vertical = 5.dp),
-                        text = "24.03.2024",
+                        text = context.getcurrentDate(),
                         style = MaterialTheme.typography.labelMedium,
                         color = Color.White,
                         textAlign = TextAlign.Center
                     )
                 }
-                WorkoutIconWithTitle(modifier,sportChoosen)
-                AddProgressInputs(modifier)
+                WorkoutIconWithTitle(modifier, sportChoosen)
+                AddProgressInputs(modifier,sportChoosen)
                 AppButton(
                     modifier = modifier
                         .fillMaxWidth()
                         .padding(horizontal = 10.dp),
-                    text = "Add new Progression"
+                    text = stringResource(R.string.add_new_progression_title)
                 ) {
 
                 }
@@ -93,7 +98,7 @@ fun AddWorkOutScreen(
                     modifier = modifier.clickable {
                         onNavigateBack.invoke()
                     },
-                    text = "Cancel",
+                    text = stringResource(R.string.cancel_title),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.secondary
                 )

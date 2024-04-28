@@ -5,4 +5,6 @@
     <string name="progress">Progress</string>
     <string name="add_progress">+ Add Progress</string>
     <string name="new_level">New Level</string>
+    <string name="cancel_title">Cancel</string>
+    <string name="add_new_progression_title">Add new Progression</string>
 </resources>

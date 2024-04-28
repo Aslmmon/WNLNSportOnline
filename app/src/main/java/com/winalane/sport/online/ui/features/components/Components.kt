@@ -35,6 +35,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.winalane.sport.online.R
+import com.winalane.sport.online.data.CategoryType
+import com.winalane.sport.online.data.SPORTY
 import com.winalane.sport.online.data.Sport
 import com.winalane.sport.online.ui.features.add_workout.StyledTextField
 
@@ -106,7 +108,7 @@ fun ItemsView(
 //            isChecked = checkedSport== sport
 //            isChecked = true
             onItemClicked.invoke(sport)
-           // isChecked = sport.isSelected
+            // isChecked = sport.isSelected
 
         }) {
             Icon(
@@ -188,7 +190,8 @@ fun MinimalDialog(modifier: Modifier, newScoreImage: Int, onDismissRequest: () -
 }
 
 @Composable
-fun AddProgressInputs(modifier: Modifier) {
+fun AddProgressInputs(modifier: Modifier, sportChoosen: Sport?) {
+
 
     Card(
         modifier = modifier
@@ -197,58 +200,86 @@ fun AddProgressInputs(modifier: Modifier) {
             .height(150.dp),
         shape = RoundedCornerShape(8.dp),
     ) {
-        Column(
-            modifier = modifier
-                .padding(vertical = 15.dp, horizontal = 10.dp),
-            verticalArrangement = Arrangement.SpaceBetween
 
-        ) {
+        when (sportChoosen?.sporty) {
+            SPORTY.TWOEDITTEXT -> {
+                Column(
+                    modifier = modifier.padding(vertical = 15.dp, horizontal = 10.dp),
+                    verticalArrangement = Arrangement.SpaceBetween
 
+                ) {
 
-            Row(
-                modifier = modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Duration",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.surfaceDim
-                )
-                StyledTextField(modifier, " Km")
+                    EditTextWithTitle(modifier = modifier, title = "Duration", placeholder = "Km")
+                    DividerView(modifier = modifier)
+                    EditTextWithTitle(modifier = modifier, title = "Distance", placeholder = "min")
 
-
-            }
-            Spacer(modifier = modifier.height(15.dp))
-            Divider(
-                modifier = modifier.height(1.dp),
-                color = MaterialTheme.colorScheme.surfaceTint
-            )
-            Spacer(modifier = modifier.height(15.dp))
-
-            Row(
-                modifier = modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "Distance",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.surfaceDim
-                )
-                StyledTextField(modifier, " min")
-
-
+                }
             }
 
+            SPORTY.ONEEDITTEXT -> {
+                Column(
+                    modifier = modifier.padding(vertical = 15.dp, horizontal = 10.dp),
+                    horizontalAlignment = Alignment.Start
+
+                ) {
+                    EditTextWithTitle(modifier = modifier, title = "Amount")
+                    DividerView(modifier = modifier)
+                }
+            }
+
+            SPORTY.SPINNERANDEDITTEXT -> {
+                Column(
+                    modifier = modifier.padding(vertical = 15.dp, horizontal = 10.dp),
+                    verticalArrangement = Arrangement.SpaceBetween
+
+                ) {
+                    Text(text = "spinner is here ")
+                    DividerView(modifier = modifier)
+                    EditTextWithTitle(modifier = modifier, title = "Amount")
+                }
+            }
+
+            else -> {
+
+            }
         }
+
     }
+}
+
+@Composable
+fun EditTextWithTitle(modifier: Modifier, title: String, placeholder: String? = null) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.surfaceDim
+        )
+        StyledTextField(modifier, " $placeholder")
+
+
+    }
+}
+
+@Composable
+fun DividerView(modifier: Modifier) {
+    Spacer(modifier = modifier.height(5.dp))
+    Divider(
+        modifier = modifier.height(1.dp),
+        color = MaterialTheme.colorScheme.surfaceTint
+    )
+    Spacer(modifier = modifier.height(5.dp))
 }
 
 @Composable
 fun WorkoutIconWithTitle(modifier: Modifier, sportChoosen: Sport?) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Image(
-            painter = painterResource(id = R.drawable.bicycle),
+            painter = painterResource(id = sportChoosen?.categoryType?.image ?: R.drawable.bicycle),
             contentDescription = "",
             Modifier.size(75.dp)
         )
