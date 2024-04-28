@@ -1,4 +1,4 @@
-package com.winalane.sport.online.ui.acheivements
+package com.winalane.sport.online.ui.features.acheivements
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,7 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.winalane.sport.online.R
-import com.winalane.sport.online.ui.components.MinimalDialog
+import com.winalane.sport.online.ui.features.components.MinimalDialog
 
 @Composable
 fun AchievmentsScreen(modifier: Modifier) {

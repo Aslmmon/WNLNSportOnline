@@ -11,14 +11,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -28,15 +27,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.winalane.sport.online.ui.acheivements.AchievmentsScreen
-import com.winalane.sport.online.ui.add_workout.AddWorkOutScreen
-import com.winalane.sport.online.ui.progress.ProgressScreen
+import com.winalane.sport.online.data.Sport
+import com.winalane.sport.online.ui.common.SharedViewModel
+import com.winalane.sport.online.ui.features.acheivements.AchievmentsScreen
+import com.winalane.sport.online.ui.features.add_workout.AddWorkOutScreen
+import com.winalane.sport.online.ui.features.progress.ProgressScreen
 import com.winalane.sport.online.ui.theme.WNLNSportOnlineTheme
-import com.winalane.sport.online.ui.workout.WorkOutScreen
-import com.winalane.sport.online.ui.workout.WorkoutViewModel
+import com.winalane.sport.online.ui.features.workout.WorkOutScreen
+import com.winalane.sport.online.ui.features.workout.WorkoutViewModel
 import kotlinx.coroutines.delay
 
-val KEY_ROUTE: String? = "route"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,13 +52,13 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
 
 
-                    NavHost(navController, startDestination = "splash") {
-                        composable("splash") {
+                    NavHost(navController, startDestination = ROUTES.SplashScreen.value) {
+                        composable(ROUTES.SplashScreen.value) {
                             SplashScreen(modifier = Modifier) {
-                                navController.navigate("MainScreen")
+                                navController.navigate(ROUTES.MainScreen.value)
                             }
                         }
-                        composable("MainScreen") {
+                        composable(ROUTES.MainScreen.value) {
                             MainScreen()
                         }
 
@@ -79,8 +79,7 @@ fun MainScreen() {
         BottomNavigationScreens.WorkOut,
         BottomNavigationScreens.Achievments,
         BottomNavigationScreens.Progress,
-
-        )
+    )
     Scaffold(
         bottomBar = {
             SpookyAppBottomNavigation(navController, bottomNavigationItems)
@@ -94,7 +93,7 @@ fun MainScreen() {
 fun SplashScreen(modifier: Modifier = Modifier, onNavigateToHOme: () -> Unit) {
 
     LaunchedEffect(Unit) {
-        delay(5000L)
+        delay(3000L)
         onNavigateToHOme.invoke()
     }
 
@@ -115,19 +114,19 @@ sealed class BottomNavigationScreens(
 ) {
     object WorkOut :
         BottomNavigationScreens(
-            "WorkOut",
+            ROUTES.WorkOutScreen.value,
             resourceId = R.string.workout,
             (R.drawable.muscle_up)
         )
 
     object Achievments : BottomNavigationScreens(
-        "Achievments",
+        ROUTES.AcheievementsScreen.value,
         resourceId = R.string.achievements,
         (R.drawable.achievment_icon)
     )
 
     object Progress : BottomNavigationScreens(
-        "Progress",
+        ROUTES.ProgressScreen.value,
         resourceId = R.string.progress,
         (R.drawable.progress_icon)
     )
@@ -164,8 +163,6 @@ private fun SpookyAppBottomNavigation(
                     )
                 },
                 onClick = {
-                    // This if check gives us a "singleTop" behavior where we do not create a
-                    // second instance of the composable if we are already on that destination
                     if (currentRoute != screen.route) {
                         navController.navigate(screen.route)
                     }
@@ -175,11 +172,6 @@ private fun SpookyAppBottomNavigation(
     }
 }
 
-@Composable
-private fun currentRoute(navController: NavHostController): String? {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    return navBackStackEntry?.arguments?.getString(KEY_ROUTE)
-}
 
 @Composable
 private fun MainScreenNavigationConfigurations(
@@ -193,15 +185,17 @@ private fun MainScreenNavigationConfigurations(
         Modifier.padding(paddingValues)
     ) {
         val workoutViewModel = WorkoutViewModel()
+        val sharedViewModel = SharedViewModel<Sport>()
+
         composable(BottomNavigationScreens.WorkOut.route) {
             WorkOutScreen(modifier = Modifier, onNavigateToAddWorkOut = {
-                navController.navigate("Addworkout")
-            },workoutViewModel)
+                navController.navigate(ROUTES.AddWorkoutScreen.value)
+            }, workoutViewModel,sharedViewModel)
         }
-        composable("Addworkout") {
+        composable(ROUTES.AddWorkoutScreen.value) {
             AddWorkOutScreen(modifier = Modifier, onNavigateBack = {
                 navController.popBackStack()
-            })
+            },sharedViewModel)
         }
         composable(BottomNavigationScreens.Achievments.route) {
             AchievmentsScreen(modifier = Modifier)
@@ -210,6 +204,17 @@ private fun MainScreenNavigationConfigurations(
             ProgressScreen(modifier = Modifier)
         }
     }
+}
+
+enum class ROUTES(var value: String) {
+    AddWorkoutScreen("AddWorkoutScreen"),
+    SplashScreen("SplashScreen"),
+    MainScreen("MainScreen"),
+    WorkOutScreen("WorkOutScreen"),
+    AcheievementsScreen("AcheivementsScreen"),
+    ProgressScreen("ProgressScreen")
+
+
 }
 
 

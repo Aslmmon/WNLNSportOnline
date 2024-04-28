@@ -1,4 +1,4 @@
-package com.winalane.sport.online.ui.workout
+package com.winalane.sport.online.ui.features.workout
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,10 +13,6 @@ import kotlinx.coroutines.launch
 class WorkoutViewModel : ViewModel() {
     private var _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Loading())
     val uiState: StateFlow<UiState> get() = _uiState.asStateFlow()
-
-
-    private var _checkedItem: MutableStateFlow<Sport> = MutableStateFlow(sportList[0])
-    val checkedItem: StateFlow<Sport> get() = _checkedItem.asStateFlow()
 
 
     init {

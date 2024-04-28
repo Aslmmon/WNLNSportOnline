@@ -1,4 +1,4 @@
-package com.winalane.sport.online.ui.progress
+package com.winalane.sport.online.ui.features.progress
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.winalane.sport.online.R
 import com.winalane.sport.online.data.sportList
-import com.winalane.sport.online.ui.components.ContainerBox
-import com.winalane.sport.online.ui.components.ItemsView
+import com.winalane.sport.online.ui.features.components.ContainerBox
+import com.winalane.sport.online.ui.features.components.ItemsView
 
 @Composable
 fun ProgressScreen(modifier: Modifier) {

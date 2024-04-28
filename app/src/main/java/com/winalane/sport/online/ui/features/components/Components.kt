@@ -1,4 +1,4 @@
-package com.winalane.sport.online.ui.components
+package com.winalane.sport.online.ui.features.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,11 +22,6 @@ import androidx.compose.material.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.winalane.sport.online.R
 import com.winalane.sport.online.data.Sport
-import com.winalane.sport.online.ui.add_workout.StyledTextField
+import com.winalane.sport.online.ui.features.add_workout.StyledTextField
 
 
 @Composable
@@ -250,7 +245,7 @@ fun AddProgressInputs(modifier: Modifier) {
 }
 
 @Composable
-fun WorkoutIconWithTitle(modifier: Modifier) {
+fun WorkoutIconWithTitle(modifier: Modifier, sportChoosen: Sport?) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Image(
             painter = painterResource(id = R.drawable.bicycle),
@@ -259,7 +254,7 @@ fun WorkoutIconWithTitle(modifier: Modifier) {
         )
         Text(
             modifier = modifier.padding(horizontal = 45.dp, vertical = 5.dp),
-            text = "Bicycle",
+            text = sportChoosen?.name ?: "",
             style = MaterialTheme.typography.labelSmall,
             color = Color.Black,
             textAlign = TextAlign.Center

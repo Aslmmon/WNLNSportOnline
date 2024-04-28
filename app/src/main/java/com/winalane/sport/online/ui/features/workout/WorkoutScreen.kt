@@ -1,4 +1,4 @@
-package com.winalane.sport.online.ui.workout
+package com.winalane.sport.online.ui.features.workout
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,18 +30,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.winalane.sport.online.R
-import com.winalane.sport.online.ui.components.AppButton
-import com.winalane.sport.online.ui.components.ContainerBox
-import com.winalane.sport.online.ui.components.ItemsView
+import com.winalane.sport.online.data.Sport
+import com.winalane.sport.online.ui.common.SharedViewModel
+import com.winalane.sport.online.ui.features.components.AppButton
+import com.winalane.sport.online.ui.features.components.ContainerBox
+import com.winalane.sport.online.ui.features.components.ItemsView
 
 @Composable
 fun WorkOutScreen(
     modifier: Modifier,
     onNavigateToAddWorkOut: () -> Unit,
-    workoutViewModel: WorkoutViewModel
+    workoutViewModel: WorkoutViewModel,
+    sharedViewModel: SharedViewModel<Sport>
 ) {
     val uiState by workoutViewModel.uiState.collectAsState()
-    val checkedSport by workoutViewModel.checkedItem.collectAsState()
 
     Column(
         modifier = modifier
@@ -54,7 +56,7 @@ fun WorkOutScreen(
 
             when (uiState) {
                 is WorkoutViewModel.UiState.Loading -> {
-                     CircularProgressIndicator(modifier.align(Alignment.CenterHorizontally))
+                    CircularProgressIndicator(modifier.align(Alignment.CenterHorizontally))
                 }
 
                 is WorkoutViewModel.UiState.Success -> {
@@ -99,6 +101,7 @@ fun WorkOutScreen(
                             modifier = modifier.align(Alignment.End),
                             text = stringResource(R.string.add_progress),
                             onClick = {
+                                sharedViewModel.setData(data.first { it.selected })
                                 onNavigateToAddWorkOut.invoke()
                             })
                     }

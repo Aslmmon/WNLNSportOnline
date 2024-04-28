@@ -1,4 +1,4 @@
-package com.winalane.sport.online.ui.add_workout
+package com.winalane.sport.online.ui.features.add_workout
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,13 +32,21 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.winalane.sport.online.ui.components.AddProgressInputs
-import com.winalane.sport.online.ui.components.AppButton
-import com.winalane.sport.online.ui.components.ContainerBox
-import com.winalane.sport.online.ui.components.WorkoutIconWithTitle
+import com.winalane.sport.online.data.Sport
+import com.winalane.sport.online.ui.common.SharedViewModel
+import com.winalane.sport.online.ui.features.components.AddProgressInputs
+import com.winalane.sport.online.ui.features.components.AppButton
+import com.winalane.sport.online.ui.features.components.ContainerBox
+import com.winalane.sport.online.ui.features.components.WorkoutIconWithTitle
 
 @Composable
-fun AddWorkOutScreen(modifier: Modifier,onNavigateBack:()->Unit) {
+fun AddWorkOutScreen(
+    modifier: Modifier,
+    onNavigateBack: () -> Unit,
+    sharedViewModel: SharedViewModel<Sport>
+) {
+    var sportChoosen = sharedViewModel.data.value
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -70,7 +78,7 @@ fun AddWorkOutScreen(modifier: Modifier,onNavigateBack:()->Unit) {
                         textAlign = TextAlign.Center
                     )
                 }
-                WorkoutIconWithTitle(modifier)
+                WorkoutIconWithTitle(modifier,sportChoosen)
                 AddProgressInputs(modifier)
                 AppButton(
                     modifier = modifier
