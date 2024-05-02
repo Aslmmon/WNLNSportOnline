@@ -35,7 +35,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.winalane.sport.online.R
-import com.winalane.sport.online.data.CategoryType
 import com.winalane.sport.online.data.SPORTY
 import com.winalane.sport.online.data.Sport
 import com.winalane.sport.online.ui.features.add_workout.StyledTextField
@@ -190,8 +189,14 @@ fun MinimalDialog(modifier: Modifier, newScoreImage: Int, onDismissRequest: () -
 }
 
 @Composable
-fun AddProgressInputs(modifier: Modifier, sportChoosen: Sport?) {
+fun AddProgressInputs(
+    modifier: Modifier,
+    sportChosen: Sport?,
+    onDurationInput: (String) -> Unit,
+    onDistanceInput: (String) -> Unit,
+    onAmountInput: (String) -> Unit,
 
+    ) {
 
     Card(
         modifier = modifier
@@ -201,7 +206,7 @@ fun AddProgressInputs(modifier: Modifier, sportChoosen: Sport?) {
         shape = RoundedCornerShape(8.dp),
     ) {
 
-        when (sportChoosen?.sporty) {
+        when (sportChosen?.sporty) {
             SPORTY.TWOEDITTEXT -> {
                 Column(
                     modifier = modifier.padding(vertical = 15.dp, horizontal = 10.dp),
@@ -209,9 +214,21 @@ fun AddProgressInputs(modifier: Modifier, sportChoosen: Sport?) {
 
                 ) {
 
-                    EditTextWithTitle(modifier = modifier, title = "Duration", placeholder = "Km")
+                    EditTextWithTitle(
+                        modifier = modifier,
+                        title = "Duration",
+                        placeholder = "Km",
+                        onValueChanged = { text ->
+                            onDurationInput.invoke(text)
+                        })
                     DividerView(modifier = modifier)
-                    EditTextWithTitle(modifier = modifier, title = "Distance", placeholder = "min")
+                    EditTextWithTitle(
+                        modifier = modifier,
+                        title = "Distance",
+                        placeholder = "min",
+                        onValueChanged = { distance ->
+                            onDistanceInput.invoke(distance)
+                        })
 
                 }
             }
@@ -222,7 +239,12 @@ fun AddProgressInputs(modifier: Modifier, sportChoosen: Sport?) {
                     horizontalAlignment = Alignment.Start
 
                 ) {
-                    EditTextWithTitle(modifier = modifier, title = "Amount")
+                    EditTextWithTitle(
+                        modifier = modifier,
+                        title = "Amount",
+                        onValueChanged = { amount ->
+                            onAmountInput.invoke(amount)
+                        })
                     DividerView(modifier = modifier)
                 }
             }
@@ -235,7 +257,12 @@ fun AddProgressInputs(modifier: Modifier, sportChoosen: Sport?) {
                 ) {
                     Text(text = "spinner is here ")
                     DividerView(modifier = modifier)
-                    EditTextWithTitle(modifier = modifier, title = "Amount")
+                    EditTextWithTitle(
+                        modifier = modifier,
+                        title = "Amount",
+                        onValueChanged = { amount ->
+                            onAmountInput.invoke(amount)
+                        })
                 }
             }
 
@@ -248,7 +275,12 @@ fun AddProgressInputs(modifier: Modifier, sportChoosen: Sport?) {
 }
 
 @Composable
-fun EditTextWithTitle(modifier: Modifier, title: String, placeholder: String? = null) {
+fun EditTextWithTitle(
+    modifier: Modifier,
+    title: String,
+    placeholder: String? = null,
+    onValueChanged: (String) -> Unit
+) {
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -259,7 +291,7 @@ fun EditTextWithTitle(modifier: Modifier, title: String, placeholder: String? = 
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.surfaceDim
         )
-        StyledTextField(modifier, " $placeholder")
+        StyledTextField(modifier, " $placeholder", onValueChanged)
 
 
     }

@@ -46,6 +46,15 @@ class WorkoutViewModel : ViewModel() {
 
     }
 
+    fun getSportsData(sport: Sport) {
+        with((_uiState.value as UiState.Success).data) {
+            this.forEach { it.selected = false }
+            this.find { it.categoryType.categoryId == sport.categoryType.categoryId }?.selected =
+                true
+        }
+
+    }
+
 
     sealed class UiState {
         data class Success(val data: MutableList<Sport>) : UiState()

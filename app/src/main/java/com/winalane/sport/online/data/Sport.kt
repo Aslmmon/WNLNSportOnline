@@ -24,13 +24,10 @@ data class Sport(
  * for Saving
  */
 data class SportData(
-    val date: String,
-    val categoryId: Int,
-    val durationBicycle: String? = null,
-    val distanceBicycle: String? = null,
-    val durationRunning: String? = null,
-    val distanceRunning: String? = null,
-    val durationFootball: String? = null,
+    val date: String?=null,
+    val categoryId: Int?=null,
+    val duration: String? = null,
+    val distance: String? = null,
     val goalsFootball: String? = null,
     val goals: String? = null,
     val amountPushUps: String? = null,

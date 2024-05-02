@@ -1,5 +1,6 @@
 package com.winalane.sport.online.ui.features.add_workout
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -20,6 +21,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,9 +49,13 @@ import com.winalane.sport.online.ui.features.components.WorkoutIconWithTitle
 fun AddWorkOutScreen(
     modifier: Modifier,
     onNavigateBack: () -> Unit,
-    sharedViewModel: SharedViewModel<Sport>
+    sharedViewModel: SharedViewModel<Sport>,
+    addWorkoutViewModel: AddWorkOutViewModel
 ) {
     val sportChoosen = sharedViewModel.data.value
+
+    val uiState by addWorkoutViewModel.sportsData.collectAsState()
+
     val context = LocalContext.current
 
     Column(
@@ -84,14 +90,26 @@ fun AddWorkOutScreen(
                     )
                 }
                 WorkoutIconWithTitle(modifier, sportChoosen)
-                AddProgressInputs(modifier,sportChoosen)
+                AddProgressInputs(
+                    modifier,
+                    sportChoosen,
+                    onDistanceInput = {
+                        addWorkoutViewModel.updateDistance(it)
+                    },
+                    onAmountInput = {
+                        addWorkoutViewModel.updateAmount(it)
+                    },
+                    onDurationInput = {
+                        addWorkoutViewModel.updateDuration(it)
+                    })
                 AppButton(
                     modifier = modifier
                         .fillMaxWidth()
                         .padding(horizontal = 10.dp),
                     text = stringResource(R.string.add_new_progression_title)
                 ) {
-
+                    addWorkoutViewModel.updateDate(context.getcurrentDate())
+                    Log.e("data", "${uiState.size} $uiState")
                 }
 
                 Text(
@@ -109,7 +127,7 @@ fun AddWorkOutScreen(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun StyledTextField(modifier: Modifier, titleAfterText: String) {
+fun StyledTextField(modifier: Modifier, titleAfterText: String, onValueChanged: (String) -> Unit) {
     var value by remember { mutableStateOf("") }
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -120,7 +138,10 @@ fun StyledTextField(modifier: Modifier, titleAfterText: String) {
         ) {
             BasicTextField(
                 value = value,
-                onValueChange = { value = it },
+                onValueChange = {
+                    value = it
+                    onValueChanged.invoke(value)
+                },
                 modifier = Modifier.height(36.dp),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),

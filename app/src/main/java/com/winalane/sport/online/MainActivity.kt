@@ -31,6 +31,7 @@ import com.winalane.sport.online.data.Sport
 import com.winalane.sport.online.ui.common.SharedViewModel
 import com.winalane.sport.online.ui.features.acheivements.AchievmentsScreen
 import com.winalane.sport.online.ui.features.add_workout.AddWorkOutScreen
+import com.winalane.sport.online.ui.features.add_workout.AddWorkOutViewModel
 import com.winalane.sport.online.ui.features.progress.ProgressScreen
 import com.winalane.sport.online.ui.theme.WNLNSportOnlineTheme
 import com.winalane.sport.online.ui.features.workout.WorkOutScreen
@@ -55,7 +56,9 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController, startDestination = ROUTES.SplashScreen.value) {
                         composable(ROUTES.SplashScreen.value) {
                             SplashScreen(modifier = Modifier) {
-                                navController.navigate(ROUTES.MainScreen.value)
+                                navController.navigate(ROUTES.MainScreen.value) {
+                                    navController.popBackStack()
+                                }
                             }
                         }
                         composable(ROUTES.MainScreen.value) {
@@ -185,17 +188,19 @@ private fun MainScreenNavigationConfigurations(
         Modifier.padding(paddingValues)
     ) {
         val workoutViewModel = WorkoutViewModel()
+        val addWorkoutViewModel = AddWorkOutViewModel()
+
         val sharedViewModel = SharedViewModel<Sport>()
 
         composable(BottomNavigationScreens.WorkOut.route) {
             WorkOutScreen(modifier = Modifier, onNavigateToAddWorkOut = {
                 navController.navigate(ROUTES.AddWorkoutScreen.value)
-            }, workoutViewModel, sharedViewModel)
+            }, workoutViewModel, sharedViewModel, addWorkoutViewModel)
         }
         composable(ROUTES.AddWorkoutScreen.value) {
             AddWorkOutScreen(modifier = Modifier, onNavigateBack = {
                 navController.popBackStack()
-            }, sharedViewModel)
+            }, sharedViewModel, addWorkoutViewModel)
         }
         composable(BottomNavigationScreens.Achievments.route) {
             AchievmentsScreen(modifier = Modifier)
