@@ -25,10 +25,9 @@ data class Sport(
  */
 data class SportData(
     val date: String?=null,
-    val categoryId: Int?=null,
+    val categoryId: String?=null,
     val duration: String? = null,
     val distance: String? = null,
-    val goalsFootball: String? = null,
     val goals: String? = null,
     val amountPushUps: String? = null,
     val typePushUps: String? = null,

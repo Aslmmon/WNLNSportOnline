@@ -1,6 +1,5 @@
 package com.winalane.sport.online.ui.features.workout
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,8 +25,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.winalane.sport.online.R
@@ -48,7 +45,6 @@ fun WorkOutScreen(
     addWorkoutViewModel: AddWorkOutViewModel
 ) {
     val uiState by workoutViewModel.uiState.collectAsState()
-    val sportsUiState by addWorkoutViewModel.sportsData.collectAsState()
 
     Column(
         modifier = modifier
@@ -66,6 +62,7 @@ fun WorkOutScreen(
 
                 is WorkoutViewModel.UiState.Success -> {
                     val data = (uiState as WorkoutViewModel.UiState.Success).data
+                    val sportLists = addWorkoutViewModel.getSportsData(data.first{ it.selected }.categoryType.categoryId.toString())
 
                     Column(
                         modifier = modifier
@@ -82,31 +79,33 @@ fun WorkOutScreen(
                                     ItemsView(
                                         modifier = modifier,
                                         sport = item,
-                                        onItemClicked = workoutViewModel::selectItem
+                                        onItemClicked ={
+                                            workoutViewModel.selectItem(sport = it)
+                                        }
                                     )
                                 }
                             }
                             LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                items(sportsUiState) {
-                                    WorkOutViewItem(modifier = modifier,it)
+                                items(sportLists) {
+                                    WorkOutViewItem(modifier = modifier, it)
                                 }
                             }
                         }
 
 
 
-                        Image(
-                            modifier = modifier.align(Alignment.CenterHorizontally),
-                            painter = painterResource(id = R.drawable.no_exercise),
-                            contentDescription = ""
-                        )
+//                        if (sportLists.isEmpty()) Image(
+//                            modifier = modifier.align(Alignment.CenterHorizontally),
+//                            painter = painterResource(id = R.drawable.no_exercise),
+//                            contentDescription = ""
+//                        )
 
 
                         AppButton(
                             modifier = modifier.align(Alignment.End),
                             text = stringResource(R.string.add_progress),
                             onClick = {
-                                sharedViewModel.setData(data.first { it.selected })
+                                sharedViewModel.setData(data.first { it.selected!! })
                                 onNavigateToAddWorkOut.invoke()
                             })
                     }
@@ -124,7 +123,7 @@ fun WorkOutScreen(
 
 
 @Composable
-fun WorkOutViewItem(modifier: Modifier, sportData: SportData) {
+fun WorkOutViewItem(modifier: Modifier, sportData: SportData?=null) {
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -138,7 +137,7 @@ fun WorkOutViewItem(modifier: Modifier, sportData: SportData) {
                 .padding(vertical = 15.dp, horizontal = 10.dp),
             verticalArrangement = Arrangement.SpaceAround
         ) {
-            Text(text = sportData.date.toString(), style = MaterialTheme.typography.labelMedium)
+            Text(text = sportData?.date.toString(), style = MaterialTheme.typography.labelMedium)
             Spacer(modifier = modifier.height(5.dp))
             Divider(modifier = modifier.height(1.dp), color = MaterialTheme.colorScheme.surfaceTint)
             Spacer(modifier = modifier.height(5.dp))
@@ -153,7 +152,7 @@ fun WorkOutViewItem(modifier: Modifier, sportData: SportData) {
                     color = MaterialTheme.colorScheme.surfaceDim
                 )
                 Text(
-                    text = "${sportData.duration} min",
+                    text = "${sportData?.duration} min",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.surfaceDim
                 )
@@ -171,7 +170,7 @@ fun WorkOutViewItem(modifier: Modifier, sportData: SportData) {
                     color = MaterialTheme.colorScheme.surfaceDim
                 )
                 Text(
-                    text = "${sportData.goals}",
+                    text = "${sportData?.goals}",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.surfaceDim
                 )

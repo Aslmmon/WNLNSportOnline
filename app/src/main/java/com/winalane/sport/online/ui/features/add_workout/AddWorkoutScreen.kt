@@ -1,6 +1,5 @@
 package com.winalane.sport.online.ui.features.add_workout
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -21,7 +20,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,10 +50,7 @@ fun AddWorkOutScreen(
     sharedViewModel: SharedViewModel<Sport>,
     addWorkoutViewModel: AddWorkOutViewModel
 ) {
-    val sportChoosen = sharedViewModel.data.value
-
-    val uiState by addWorkoutViewModel.sportsData.collectAsState()
-
+    val sportChosen = sharedViewModel.data.value
     val context = LocalContext.current
 
     Column(
@@ -89,10 +84,10 @@ fun AddWorkOutScreen(
                         textAlign = TextAlign.Center
                     )
                 }
-                WorkoutIconWithTitle(modifier, sportChoosen)
+                WorkoutIconWithTitle(modifier, sportChosen)
                 AddProgressInputs(
                     modifier,
-                    sportChoosen,
+                    sportChosen,
                     onDistanceInput = {
                         addWorkoutViewModel.updateDistance(it)
                     },
@@ -108,8 +103,11 @@ fun AddWorkOutScreen(
                         .padding(horizontal = 10.dp),
                     text = stringResource(R.string.add_new_progression_title)
                 ) {
-                    addWorkoutViewModel.updateDate(context.getcurrentDate())
-                    Log.e("data", "${uiState.size} $uiState")
+                    addWorkoutViewModel.submitProgress(
+                        context.getcurrentDate(),
+                        sportChosen?.categoryType?.categoryId.toString()
+                    )
+                    onNavigateBack.invoke()
                 }
 
                 Text(

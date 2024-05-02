@@ -1,5 +1,6 @@
 package com.winalane.sport.online.ui.features.workout
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.winalane.sport.online.data.Sport
@@ -13,7 +14,6 @@ import kotlinx.coroutines.launch
 class WorkoutViewModel : ViewModel() {
     private var _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Loading())
     val uiState: StateFlow<UiState> get() = _uiState.asStateFlow()
-
 
     init {
         getListSports()
@@ -42,18 +42,19 @@ class WorkoutViewModel : ViewModel() {
             this.forEach { it.selected = false }
             this.find { it.categoryType.categoryId == sport.categoryType.categoryId }?.selected =
                 true
+            Log.e("data",this.toMutableList().toString())
         }
 
     }
 
-    fun getSportsData(sport: Sport) {
-        with((_uiState.value as UiState.Success).data) {
-            this.forEach { it.selected = false }
-            this.find { it.categoryType.categoryId == sport.categoryType.categoryId }?.selected =
-                true
-        }
-
-    }
+//    fun getSportsData(sport: Sport) {
+//        with((_uiState.value as UiState.Success).data) {
+//            this.forEach { it.selected = false }
+//            this.find { it.categoryType.categoryId == sport.categoryType.categoryId }?.selected =
+//                true
+//        }
+//
+//    }
 
 
     sealed class UiState {

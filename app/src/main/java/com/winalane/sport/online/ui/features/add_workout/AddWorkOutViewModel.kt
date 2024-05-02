@@ -2,11 +2,9 @@ package com.winalane.sport.online.ui.features.add_workout
 
 import androidx.lifecycle.ViewModel
 import com.winalane.sport.online.data.SportData
-import com.winalane.sport.online.ui.features.add_workout.AddWorkOutViewModel.SportsDataState.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 
 class AddWorkOutViewModel : ViewModel() {
@@ -21,10 +19,7 @@ class AddWorkOutViewModel : ViewModel() {
     val sportsData: StateFlow<MutableList<SportData>> get() = _sportsData.asStateFlow()
 
 
-    fun updateDate(date: String) {
-        _uiState.update {
-            it.copy(date = date)
-        }
+    fun submitProgress(date: String, categoryId: String) {
         with(_uiState.value) {
             _sportsData.value.add(
                 SportData(
@@ -32,11 +27,16 @@ class AddWorkOutViewModel : ViewModel() {
                     duration = duration,
                     distance = distance,
                     goals = goals,
+                    categoryId = categoryId
 
-                    )
+                )
             )
         }
 
+    }
+
+    fun getSportsData(categoryId: String): List<SportData> {
+        return _sportsData.value.filter { it.categoryId == categoryId }
     }
 
     fun updateDuration(duration: String) {
@@ -69,6 +69,7 @@ class AddWorkOutViewModel : ViewModel() {
         val duration: String? = null,
         val distance: String? = null,
         val amount: String? = null,
+        val type: String? = null,
         val goals: String? = null,
     )
 }
