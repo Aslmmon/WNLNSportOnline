@@ -1,5 +1,6 @@
 package com.winalane.sport.online.ui.features.workout
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.winalane.sport.online.R
@@ -94,18 +96,18 @@ fun WorkOutScreen(
 
 
 
-//                        if (sportLists.isEmpty()) Image(
-//                            modifier = modifier.align(Alignment.CenterHorizontally),
-//                            painter = painterResource(id = R.drawable.no_exercise),
-//                            contentDescription = ""
-//                        )
+                        if (sportLists.isEmpty()) Image(
+                            modifier = modifier.align(Alignment.CenterHorizontally),
+                            painter = painterResource(id = R.drawable.no_exercise),
+                            contentDescription = ""
+                        )
 
 
                         AppButton(
                             modifier = modifier.align(Alignment.End),
                             text = stringResource(R.string.add_progress),
                             onClick = {
-                                sharedViewModel.setData(data.first { it.selected!! })
+                                sharedViewModel.setData(data.first { it.selected })
                                 onNavigateToAddWorkOut.invoke()
                             })
                     }
